@@ -24,6 +24,13 @@ The description of classes, methods and every important (not temporary) variable
 		6.2. Connections
 		6.3. Querys
 
+Install
+=====================
+	1. Upload files to server
+	2. Create a new database
+	3. Run INSERT codes to database
+	4. Test
+
 Interface files
 =====================
 
