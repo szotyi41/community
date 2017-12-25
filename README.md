@@ -1,24 +1,33 @@
 # community
 My own community system
 
-How to use the documentation
+0 How to use the documentation
 ======================
 
 There is the description of all files, and the important aspects of project.
 The description of classes, methods and every important (not temporary) variables (in PHP) and variants (in JS).
-SESSION and POST values.
 
-Parts of documentation 
-------------------------
-Interface files: the user can see this results.
-Interface near files: this files run in background, register, login or ajax runs what is refresh the part of the site.
+	0.1 Parts of documentation 
+	------------------------
+		1. Interface files: the user can see this results.
+		2. Interface near files: this files run in background, register, login or ajax runs what is refresh the part of the site.
+		3. System.php
+		4. POSTS 
+		5. SESSIONS
+		6. Database
 
+	0.2 Database
+	-----------------------
+	Database section is show all commands in mysql
 
+		6.1. Create commands
+		6.2. Connections
+		6.3. Querys
 
-Interface files
+1. Interface files
 ======================
 
-	index.php
+	1.1 index.php
 	----------	
 	session start
 	login.php run when click the login button
@@ -40,7 +49,7 @@ Interface files
 	$_POST['password'] = send password in SHA1 encoding
 	$_POST['login'] = login button
 
-	register.php
+	1.2 register.php
 	-----------
 	session start
 	connect.php connect mysql
@@ -75,7 +84,7 @@ Interface files
 	$_POST['password2'] = pass2
 	$_POST['register'] = register button
 
-	main.php
+	1.3 main.php
 	-----------
 	session start
 	system.php, get-comments.php
@@ -125,10 +134,10 @@ Interface files
 		ajax -> post.php
 		.comment div refresh
 
-Interface near files
+2 Interface near files
 ====================
 
-	connect.php
+	2.1 connect.php
 	---------
 		connect to database
 
@@ -138,11 +147,11 @@ Interface near files
 		$database = USE database
 		$connected = boolean to indicate valid comment
 
-	login.php
+	2.2 login.php
 	---------
 		Inline logIn() method, from system.php
 
-	get-profile.php
+	2.3 get-profile.php
 	---------
 		Query the user profile picture by username field with ajax.
 
@@ -151,7 +160,7 @@ Interface near files
 		$sql = "SELECT id, username FROM users";
 		<img src="images/profiles/user_<userid>.jpg">
 
-	get-comments.php
+	2.4 get-comments.php
 	----------
 		Query comments with ajax
 		$sql = "SELECT * FROM comments";
@@ -187,14 +196,14 @@ Interface near files
 		$comment[$i]['likes'] = Comment likes count
 		$comment[$i]['youlike'] = When the logged in user like this comment this value set true
 
-	submit.php
+	2.5 submit.php
 	----------
 		Session start
 		Send post text with ajax, POST method (for data safety)
 		$sql = "INSERT INTO comments (userid, text) VALUES ($userid, '$text');";
 
 
-	like.php 
+	2.6 like.php 
 	----------
 		Send comment id and like value with ajax, GET method (for fast data transfer) then run the sql.
 
@@ -204,7 +213,7 @@ Interface near files
 		if('.comment-like').value == 1
 			$sql = "DELETE FROM likes WHERE commentid = $commentid AND userid = $userid";
 
-	remove.php 
+	2.7 remove.php 
 	----------
 		Send comment id with ajax, GET method (for fast data transfer) then run the sql.
 		$sql = "DELETE FROM comments WHERE commentid = $id";
@@ -212,10 +221,10 @@ Interface near files
 		Then DELETE all rows what identify the deleted comment, becouse prevent the data redundancy.
 		$sql = "DELETE FROM likes WHERE commentid = $id";
 
-system.php - some oop scripts
+3 system.php - Some scripts
 ====================
 
-	system.php
+	3.1 system.php
 	-----------
 	Check, the user status is just registered.
 
@@ -252,16 +261,16 @@ system.php - some oop scripts
 		When your status is logged in, this indicate your username, admin access, and show the log off button.
 
 
-$_POSTS
+4 $_POSTS
 =============
 
-	login
+	4.1 LOGIN
 	------
 	$_POST['username'] = username
 	$_POST['password'] = password in SHA1 encoding
 	$_POST['login'] = login button
 
-	register
+	4.2 REGISTER
 	-------
 	$_POST['fullname'] 
 	$_POST['email']  
@@ -270,15 +279,15 @@ $_POSTS
 	$_POST['password2'] 
 	$_POST['register'] = register button
 
-	main
+	4.3 MAIN
 	-------
 	$_POST['post-text'] 
 
 
-$_SESSIONS
+5 $_SESSIONS
 =============
 
-	login
+	5.1 LOGIN
 	--------
 		$_SESSION['loggedin'] = storage logged in status
 		$_SESSION['userid'] = logged in user identification
@@ -287,14 +296,88 @@ $_SESSIONS
 		$_SESSION['admin'] = logged in user is access to administrator events or not.
 
 
-	register
+	5.2 REGISTER
 	---------
 		$_SESSION['file'] = storage uploaded profile picture, dont need to upload again and again when you get error in register screen.
 
 		$_SESSION['registered'] = your status is just registered
 		$_SESSION['registered_name'] = just registered user fullname
 
+6 DATABASE
+=============
+	
+	6.1 CREATE TABLES
+	-------------
+		We need a table for storage comments, and users. Every comment have an owner. 
+		The comments need to set TIMESTAMP and the comment text.
+		Users need to storage properties and password in SHA1 encoding.
+		Likes table is for storage, every user can likes every comments.
 
+		CREATE TABLE comments (
+			 id int(11) NOT NULL AUTO_INCREMENT,
+			 userid int(11) NOT NULL,
+			 date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			 text mediumtext NOT NULL,
+			 UNIQUE KEY (userid)
+			 PRIMARY KEY (id)
+		) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8
 
+		CREATE TABLE likes (
+			 userid int(11) NOT NULL,
+			 commentid int(11) NOT NULL
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
+		REATE TABLE users (
+			 id int(11) NOT NULL AUTO_INCREMENT,
+			 username varchar(50) NOT NULL,
+			 password char(40) NOT NULL,
+			 email varchar(50) NOT NULL,
+			 fullname varchar(50) NOT NULL,
+			 admin tinyint(1) NOT NULL,
+			 PRIMARY KEY (id)
+		) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8
 
+	6.2 CONNECTIONS
+	--------------
+		comments.userid = users.id
+		comments.id = likes.commentid
+		users.id = likes.userid
+
+	6.3 QUERYS
+	--------------
+		Get all profiles:
+			$sql = "SELECT id, username FROM users";	
+
+		Get all comments:
+			$sql = "SELECT * FROM comments";
+
+		Count likes in a comment:
+			$sql_likes = "SELECT commentid FROM likes WHERE commentid = $commentid";
+
+		Like a comment:
+			$sql = "INSERT INTO likes (commentid, userid) VALUES ($commentid, $userid)";
+
+		Dislike a comment:
+			$sql = "DELETE FROM likes WHERE commentid = $commentid AND userid = $userid";
+
+		If the logged in user like the comment:
+			$sql_youlike = "SELECT commentid FROM likes WHERE commentid = $commentid AND userid = $userid";
+
+		Post a comment:
+			$sql = "INSERT INTO comments (userid, text) VALUES ($userid, '$text');";
+
+		Remove a comment:
+			$sql = "DELETE FROM comments WHERE commentid = $id";
+			$sql = "DELETE FROM likes WHERE commentid = $id";
+
+		Query for login:
+			$sql = "
+				SELECT id, username, password, fullname, admin
+				FROM users
+				WHERE username = '$username'
+			";
+
+		Remove user:
+			$sql = "DELETE FROM users WHERE userid=$userid"
+			$sql = "DELETE FROM comments WHERE userid = $userid";
+			$sql = "DELETE FROM likes WHERE userid = $userid";
