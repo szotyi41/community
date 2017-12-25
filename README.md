@@ -65,24 +65,24 @@ Interface files
 	
 		PHP
 		---------
-			testInput()  
-				email validation checker
+		testInput()  
+			email validation checker
 
-			$wrong[] = array() {username, password, fullname...}
-			$error = true: dont run the INSERT at register
-			$upload = true: run the profile upload code
-			$file = profile storage
-			$profiles = path of profiles
-			$to = full path of profiles
-			$destination = upload profile path (with filetype)
+		$wrong[] = array() {username, password, fullname...}
+		$error = true: dont run the INSERT at register
+		$upload = true: run the profile upload code
+		$file = profile storage
+		$profiles = path of profiles
+		$to = full path of profiles
+		$destination = upload profile path (with filetype)
 
-			$_FILES['profile-upload']['tmp_name'] = uploaded profile
-			$_POST['fullname'] = fullname send
-			$_POST['email'] = email
-			$_POST['username'] = username
-			$_POST['password1'] = pass1
-			$_POST['password2'] = pass2
-			$_POST['register'] = register button
+		$_FILES['profile-upload']['tmp_name'] = uploaded profile
+		$_POST['fullname'] = fullname send
+		$_POST['email'] = email
+		$_POST['username'] = username
+		$_POST['password1'] = pass1
+		$_POST['password2'] = pass2
+		$_POST['register'] = register button
 
 	1.3 main.php
 	-----------
@@ -105,34 +105,34 @@ Interface files
 
 		PHP
 		-----------
-			$_POST['post-text'] = full post text
+		$_POST['post-text'] = full post text
 
-			$comment_count
-			$comment[$i]['id'] = comment azonosítója
-			$comment[$i]['userid'] = comment owner 
-			$comment[$i]['fullname'] = comment owner fullname
-			$comment[$i]['date'] = comment TIMESTAMP
-			$comment[$i]['text'] = comment text
-			$comment[$i]['likes'] = count of comment likes
-			$comment[$i]['youlike'] = the logged in user like this comment or not
+		$comment_count
+		$comment[$i]['id'] = comment azonosítója
+		$comment[$i]['userid'] = comment owner 
+		$comment[$i]['fullname'] = comment owner fullname
+		$comment[$i]['date'] = comment TIMESTAMP
+		$comment[$i]['text'] = comment text
+		$comment[$i]['likes'] = count of comment likes
+		$comment[$i]['youlike'] = the logged in user like this comment or not
 
 		JS
 		------------
-			$('.comment-like').on('click')
-				var id = comemnt identification
-				var like = comment liked by the user
-				ajax -> like.php?id=id&like=like
-				.comment div refresh
+		$('.comment-like').on('click')
+			var id = comemnt identification
+			var like = comment liked by the user
+			ajax -> like.php?id=id&like=like
+			.comment div refresh
 
-			$('.comment-remove').on('click')
-				var id = comment identification
-				ajax -> remove.php?id=id
-				.comment div refresh
+		$('.comment-remove').on('click')
+			var id = comment identification
+			ajax -> remove.php?id=id
+			.comment div refresh
 
-			$('#post-button').on('click')
-				var data = (#post-form) -> convert to JSON
-				ajax -> post.php
-				.comment div refresh
+		$('#post-button').on('click')
+			var data = (#post-form) -> convert to JSON
+			ajax -> post.php
+			.comment div refresh
 
 Interface near files
 ====================
