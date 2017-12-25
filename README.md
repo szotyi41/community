@@ -63,26 +63,26 @@ Interface files
 		4. check password1 length > 5
 		5. check password1 and password2 identity
 	
-	PHP
-	---------
-		testInput()  
-			email validation checker
+		PHP
+		---------
+			testInput()  
+				email validation checker
 
-		$wrong[] = array() {username, password, fullname...}
-		$error = true: dont run the INSERT at register
-		$upload = true: run the profile upload code
-		$file = profile storage
-		$profiles = path of profiles
-		$to = full path of profiles
-		$destination = upload profile path (with filetype)
+			$wrong[] = array() {username, password, fullname...}
+			$error = true: dont run the INSERT at register
+			$upload = true: run the profile upload code
+			$file = profile storage
+			$profiles = path of profiles
+			$to = full path of profiles
+			$destination = upload profile path (with filetype)
 
-		$_FILES['profile-upload']['tmp_name'] = uploaded profile
-		$_POST['fullname'] = fullname send
-		$_POST['email'] = email
-		$_POST['username'] = username
-		$_POST['password1'] = pass1
-		$_POST['password2'] = pass2
-		$_POST['register'] = register button
+			$_FILES['profile-upload']['tmp_name'] = uploaded profile
+			$_POST['fullname'] = fullname send
+			$_POST['email'] = email
+			$_POST['username'] = username
+			$_POST['password1'] = pass1
+			$_POST['password2'] = pass2
+			$_POST['register'] = register button
 
 	1.3 main.php
 	-----------
@@ -103,36 +103,36 @@ Interface files
 
 	Post form
 
-	PHP
-	-----------
-		$_POST['post-text'] = full post text
+		PHP
+		-----------
+			$_POST['post-text'] = full post text
 
-		$comment_count
-		$comment[$i]['id'] = comment azonosítója
-		$comment[$i]['userid'] = comment owner 
-		$comment[$i]['fullname'] = comment owner fullname
-		$comment[$i]['date'] = comment TIMESTAMP
-		$comment[$i]['text'] = comment text
-		$comment[$i]['likes'] = count of comment likes
-		$comment[$i]['youlike'] = the logged in user like this comment or not
+			$comment_count
+			$comment[$i]['id'] = comment azonosítója
+			$comment[$i]['userid'] = comment owner 
+			$comment[$i]['fullname'] = comment owner fullname
+			$comment[$i]['date'] = comment TIMESTAMP
+			$comment[$i]['text'] = comment text
+			$comment[$i]['likes'] = count of comment likes
+			$comment[$i]['youlike'] = the logged in user like this comment or not
 
-	JS
-	------------
-		$('.comment-like').on('click')
-			var id = comemnt identification
-			var like = comment liked by the user
-			ajax -> like.php?id=id&like=like
-			.comment div refresh
+		JS
+		------------
+			$('.comment-like').on('click')
+				var id = comemnt identification
+				var like = comment liked by the user
+				ajax -> like.php?id=id&like=like
+				.comment div refresh
 
-		$('.comment-remove').on('click')
-			var id = comment identification
-			ajax -> remove.php?id=id
-			.comment div refresh
+			$('.comment-remove').on('click')
+				var id = comment identification
+				ajax -> remove.php?id=id
+				.comment div refresh
 
-		$('#post-button').on('click')
-			var data = (#post-form) -> convert to JSON
-			ajax -> post.php
-			.comment div refresh
+			$('#post-button').on('click')
+				var data = (#post-form) -> convert to JSON
+				ajax -> post.php
+				.comment div refresh
 
 Interface near files
 ====================
@@ -226,39 +226,39 @@ system.php - Some scripts
 
 	3.1 system.php
 	-----------
-	Check, the user status is just registered.
+		Check, the user status is just registered.
 
-	formatDateTime()
-		Convert datetime to yesterday, tomorrow or other date format.
-	betweenDateTime()
-		Convert formatDateTime() to string for output.
-	getTrue()
-		Check POST value is TRUE with exists checking.
-	logOff()
-		Set all logged in SESSIONS to default value.
-	logIn()
-		Connect to database
-		When you stay in login screen,  we get 'Wrong username or password' caption.
-		$sql = "
-			SELECT id, username, password, fullname, admin
-			FROM users
-			WHERE username = '$username'
-		";
+		formatDateTime()
+			Convert datetime to yesterday, tomorrow or other date format.
+		betweenDateTime()
+			Convert formatDateTime() to string for output.
+		getTrue()
+			Check POST value is TRUE with exists checking.
+		logOff()
+			Set all logged in SESSIONS to default value.
+		logIn()
+			Connect to database
+			When you stay in login screen,  we get 'Wrong username or password' caption.
+			$sql = "
+				SELECT id, username, password, fullname, admin
+				FROM users
+				WHERE username = '$username'
+			";
 
-		Load rows by 'username'. You get one row.
-		Then get the password SHA1 encoding, then compare with 'password' field.
-		Set the user properties to SESSION.
-		Redirecting to logged in screen.
-		Close result.
+			Load rows by 'username'. You get one row.
+			Then get the password SHA1 encoding, then compare with 'password' field.
+			Set the user properties to SESSION.
+			Redirecting to logged in screen.
+			Close result.
 
-		$_SESSION['loggedin'] = storage logged in status
-		$_SESSION['userid'] = logged in user identification
-		$_SESSION['username'] = logged in user username
-		$_SESSION['fullname'] = logged in user fullname
-		$_SESSION['admin'] = logged in user is access to administrator events or not.
+			$_SESSION['loggedin'] = storage logged in status
+			$_SESSION['userid'] = logged in user identification
+			$_SESSION['username'] = logged in user username
+			$_SESSION['fullname'] = logged in user fullname
+			$_SESSION['admin'] = logged in user is access to administrator events or not.
 
-	getLoggedIn()
-		When your status is logged in, this indicate your username, admin access, and show the log off button.
+		getLoggedIn()
+			When your status is logged in, this indicate your username, admin access, and show the log off button.
 
 
 $_POSTS
@@ -266,22 +266,22 @@ $_POSTS
 
 	4.1 LOGIN
 	------
-	$_POST['username'] = username
-	$_POST['password'] = password in SHA1 encoding
-	$_POST['login'] = login button
+		$_POST['username'] = username
+		$_POST['password'] = password in SHA1 encoding
+		$_POST['login'] = login button
 
 	4.2 REGISTER
 	-------
-	$_POST['fullname'] 
-	$_POST['email']  
-	$_POST['username'] 
-	$_POST['password1'] 
-	$_POST['password2'] 
-	$_POST['register'] = register button
+		$_POST['fullname'] 
+		$_POST['email']  
+		$_POST['username'] 
+		$_POST['password1'] 
+		$_POST['password2'] 
+		$_POST['register'] = register button
 
 	4.3 MAIN
 	-------
-	$_POST['post-text'] 
+		$_POST['post-text'] 
 
 
 $_SESSIONS
