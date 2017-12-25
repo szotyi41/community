@@ -1,4 +1,4 @@
-# community
+# Community
 My own community system
 
 How to use the documentation
