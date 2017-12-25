@@ -1,7 +1,7 @@
 # community
 My own community system
 
-0 How to use the documentation
+How to use the documentation
 ======================
 
 There is the description of all files, and the important aspects of project.
@@ -24,8 +24,8 @@ The description of classes, methods and every important (not temporary) variable
 		6.2. Connections
 		6.3. Querys
 
-1. Interface files
-======================
+Interface files
+=====================
 
 	1.1 index.php
 	----------	
@@ -36,8 +36,8 @@ The description of classes, methods and every important (not temporary) variable
 	Login form
 	Register button
 
-	!!JS!!
-
+	JS
+	-----------
 	refreshProfile() 
 		call ajax for profile refresh
 		get-profile.php run, form details send with JSON
@@ -56,7 +56,7 @@ The description of classes, methods and every important (not temporary) variable
 
 	when there is a selected picture in .profile-upload input[type='file'], the file will upload to the server, then its load to $_SESSION['file'] therefore dont need to upload again, when you get register error.
 
-	when the user click to register button:
+	When the user click to register button:
 		1. check fullname length > 4 chars
 		2. check email vaidation
 		3. check username length > 3 chars   
@@ -134,7 +134,7 @@ The description of classes, methods and every important (not temporary) variable
 		ajax -> post.php
 		.comment div refresh
 
-2 Interface near files
+Interface near files
 ====================
 
 	2.1 connect.php
@@ -221,7 +221,7 @@ The description of classes, methods and every important (not temporary) variable
 		Then DELETE all rows what identify the deleted comment, becouse prevent the data redundancy.
 		$sql = "DELETE FROM likes WHERE commentid = $id";
 
-3 system.php - Some scripts
+system.php - Some scripts
 ====================
 
 	3.1 system.php
@@ -261,7 +261,7 @@ The description of classes, methods and every important (not temporary) variable
 		When your status is logged in, this indicate your username, admin access, and show the log off button.
 
 
-4 $_POSTS
+$_POSTS
 =============
 
 	4.1 LOGIN
@@ -284,7 +284,7 @@ The description of classes, methods and every important (not temporary) variable
 	$_POST['post-text'] 
 
 
-5 $_SESSIONS
+$_SESSIONS
 =============
 
 	5.1 LOGIN
@@ -303,7 +303,7 @@ The description of classes, methods and every important (not temporary) variable
 		$_SESSION['registered'] = your status is just registered
 		$_SESSION['registered_name'] = just registered user fullname
 
-6 DATABASE
+DATABASE
 =============
 	
 	6.1 CREATE TABLES
