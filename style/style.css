@@ -1,0 +1,231 @@
+@font-face {
+    font-family: 'HelveticaNeue';
+    src: url('../fonts/HelveticaNeueLight.eot');
+    src: url('../fonts/HelveticaNeueLight.eot?#iefix') format('embedded-opentype'), url('../fonts/HelveticaNeueLight.woff2') format('woff2'), url('../fonts/HelveticaNeueLight.woff') format('woff'), url('../fonts/HelveticaNeueLight.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "FontAwesome";
+    font-weight: normal;
+    font-style : normal;
+           src : url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.eot?v=4.3.0");
+           src : url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0") format("embedded-opentype"),
+                 url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.woff2?v=4.3.0") format("woff2"),
+                 url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.woff?v=4.3.0") format("woff"),
+                 url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.ttf?v=4.3.0") format("truetype"),
+                 url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular") format("svg");
+}
+
+html {
+    font-family: 'HelveticaNeue';
+    --color-select: #8AC5FB;
+    --color-hover: #6AC5CD;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-hover);
+}
+
+a:hover {
+    color: black;
+}
+
+.loggedin {
+    float: right;
+    right: 12.5%;
+    text-align: right;
+}
+
+.container {
+    width: 75%;
+    padding-left: 12.5%;
+    padding-right: 12.5%;
+}
+
+/*     register     */
+
+.register-error {
+    margin-top: 10px;
+    color: red;
+}
+
+/*      login       */
+
+.login {
+    padding-top: 100px;
+    max-width: 300px;
+    margin: auto;
+}
+
+.login-profile img {
+    display: block;
+    margin: auto;
+    max-width: 200px;
+    width: 200px;
+    height: 200px;
+}
+
+.login-wrong {
+    position: fixed;
+    float: left;
+    text-align: left;
+    margin-left: 12.5%;
+    color: red;
+}
+
+
+/*      main       */
+
+.comment-number {
+    padding-top: 50px;
+    font-size: 32px;
+}
+.comment {
+    overflow: hidden;
+    padding: 20px;
+    border-style: solid;
+    border-width: 0px;
+    background: white;
+}
+
+.comment-content {
+    overflow: hidden;
+}
+
+.comment-remove {
+    white-space: nowrap;
+    float: right;
+    text-align: right;
+    color: var(--color-hover);
+}
+.comment-remove:hover {
+    cursor: pointer;
+    color: black;
+}
+
+.comment-like {
+    width: 100px;
+    color: var(--color-hover);
+}
+
+.comment-like i {
+    font-family: 'FontAwesome';
+    margin: 10px 10px 10px 0px;
+}
+
+.comment-like:hover {
+    cursor: pointer;
+    color: black;
+}
+
+.comment-profile img {
+    width: 120px;
+    height: 120px;
+    margin-right: 15px;
+    float: left;
+}
+.comment-name {
+    display: inline;
+    font-weight: bold;
+    font-size: 18px;
+}
+.comment-date {
+    font-size: 20px;
+    display: block;
+    font-style: normal;
+    color: gray;
+    margin-top: 5px;
+}
+.comment-text {
+    white-space: pre-wrap;
+    font-family: 'HelveticaNeue';
+    font-size: 20px;
+    display: table;
+    font-style: normal;
+    margin-top: 10px;
+}
+
+/*   post comment   */
+.post {
+    padding: 20px;
+    border-style: solid;
+    border-width: 0px;
+    background: white;
+}
+
+.post-form {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.post-form img {
+    float: left; 
+    width: 120px;
+    height: 120px;
+    margin-right: 15px;
+}
+
+input[type=textbox], input[type=password], input[type=email] {
+    display: block;
+    padding-left: 12px;
+    margin-top: 20px;
+    width: 100%;
+    height: 32px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: lightgray;
+    background: white;
+}
+
+input[type=button], input[type=submit] {
+    margin: auto;
+    display: block;
+    margin-top: 20px;
+    width: 200px;
+    height: 48px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: lightgray;
+    background: white;
+}
+
+input[type=button]:hover, input[type=submit]:hover {
+    cursor: pointer;
+    color: white;
+    background: var(--color-select);
+}
+
+input[type=file] {
+    font-family: 'HelveticaNeue';
+    margin: auto;
+    display: block;
+    margin-top: 20px;
+    height: 48px;
+    background: white;
+}
+
+input[type=file]:hover {
+    cursor: pointer;
+}
+
+
+textarea {
+    flex: 1;
+    resize: none;
+    padding: 0px;
+    height: 120px;
+    font-family: 'HelveticaNeue';
+    border: 1px solid lightgray;
+    font-size: 20px;
+    background: white;
+}
+
+::selection {
+    background: var(--color-select);
+}
+::-moz-selection {
+    background: var(--color-select);
+}

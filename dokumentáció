@@ -1,0 +1,291 @@
+Dokumentáció használatta
+======================
+
+Minden fájlnak megtalálható a leírása, és fontosabb aspektusai ebben a dokumentumban.
+Valamint az osztályokról, való leírás, és minden fontosabb (nem temp) változó leírása.
+SESSION, és POST értékek leírásai.
+
+A Dokumentációt Felületi fájlokra, amik a felhasználó által is szemmel látható kódok, 
+valamint Felület közeli fájlokra, amik csak a háttérben futnak le, vagy regisztáció, 
+bejelentkezést követően, vagy ajax segítségével az oldal egyes részeit lefrissítve.
+
+
+
+Felületi fájlok
+======================
+
+	index.php
+	----------	
+	session indítása
+	login.php lefuttatása login gombra kattintás esetén
+	get-profile.php lefuttatása minden beírt karater esetén a(z) username mezőbe
+	Profilkép megjelenítése
+	Bejelentkező felület (HTML)
+	Elérési út a regisztrációs felülethez
+
+	!!JS osztályszinten!!
+
+	refreshProfile() 
+		ajax meghívása profilfrissítéshez
+		get-profile.php futtatása, form adatainak elküldése JSON-nal
+		get-profile.php adott értékével a #login-prfile-image src frissítése: src='images/profiles/user_'+userid+'.jpg';
+
+	!!PHP osztályszinten!!
+
+	$_POST['username'] = felhasználónév
+	$_POST['password'] = jelszó SHA1 kódolásban
+	$_POST['login'] = login gomb
+
+	register.php
+	-----------
+	session indítása
+	connect.php
+	amennyiben, ki van választva egy kép a .profile-upload input[type='file'] ban azt feltölti a szerverre és $_SESSION['file']-hoz adja, hogy ne kelljen mégegyszer feltölteni, ha elírtunk valamit az űrlapon.
+	a 'register' gombra kattintva a fullname hosszát vizsgáljuk meg, hogy hosszabb e mint 4 karakter, majd az email helyességét és a username  hosszát (több mint 3 karakter) vizsgáljuk.
+	majd a jelszavak hosszát és azonosságát vizsgáljuk
+	
+	!!PHP osztályszinten!!
+	
+	testInput()  
+		email helyesség vizsgáló metódus
+
+	$wrong[] = array() {username, password, fullname...}
+	$error = true: nem fut le az insert
+	$upload = true: lefut a képfeltöltés
+	$file = képfájl tároló
+	$profiles = profilok elérési útja
+	$to = teljes elérési út a profilokhoz
+	$destination = feltöltés ide
+
+	$_FILES['profile-upload']['tmp_name'] = feltöltött profilkép
+	$_POST['fullname'] = felhasználónév
+	$_POST['email'] = email 
+	$_POST['username'] = felhasználónév
+	$_POST['password1'] = jelszó1
+	$_POST['password2'] = jelszó2
+	$_POST['register'] = register gomb
+
+	main.php
+	-----------
+	session indítása
+	system.php, get-comments.php
+	comment-number: kommentek számának kiíratása 
+	<?php for($i = 0; $i < $comment_count; $i++)?>
+		komment tulajdonosának profilképe $comemnt[$i]['userid'] alapján
+		k. tul. teljes neve $comemnt[$i]['fullname'] alapján
+		k. kiíratásának időpontja $comemnt[$i]['date'] alapján
+		k. teljes szövege $comemnt[$i]['text'] alapján
+		k. like-ok kiíratása $comemnt[$i]['likes'] alapján
+		k. like-icon megjelenítése $comemnt[$i]['youlike'] alapján
+		if($comemnt[$i]['youlike'] == '1') <i value='1'> 
+		if($comemnt[$i]['youlike'] == '0') <i value='0'>
+		A value az ajax adat transzfer miatt szükséges
+	<?php } ?>  
+
+	Post form megjelenítése
+
+	!!PHP osztályszinten!!
+
+	$_POST['post-text'] = posztolni kívánt szöveg mező
+
+	$comment_count = kommentek száma
+	$comment[$i]['id'] = komment azonosítója
+	$comment[$i]['userid'] = komment tulajdonosának azonosítója
+	$comment[$i]['fullname'] = userid segítségével lekérdezett teljes név
+	$comment[$i]['date'] = a komment TIMESTAMP-ja
+	$comment[$i]['text'] = a komment teljes szövege
+	$comment[$i]['likes'] = kommentre kapott like-ok száma
+	$comment[$i]['youlike'] = a bejelentkezett felhasználó értékelése, az adott kommentre
+
+	!!JS osztályszinten!!
+	
+	$('.comment-like').on('click')
+		var id = komment id-je
+		var like = komment like-olva volt e a felhasználó által
+		ajax -> like.php?id=id&like=like
+		.comment frissítése
+
+	$('.comment-remove').on('click')
+		var id = komment id-je
+		ajax -> remove.php?id=id
+		.comment frissítése
+
+	$('#post-button').on('click')
+		var data = (#post-form) -> JSON-ná alakítás
+		ajax -> post.php
+		.comment frissítése
+
+Felület közeli (PHP) kódok
+====================
+
+	connect.php
+	---------
+		kapcsolódás az adatbázishoz
+
+		$host = szerver elérési útja:port
+		$username = sql felhasználó
+		$password = sql jelszó
+		$database = sql adatbázis kiválasztása
+		$connected = Kapcsolódás valid ellenőrzés
+
+	login.php
+	---------
+		Lefuttatja a system.php logIn() metódusát, ha a login gombra kattintunk.
+
+	get-profile.php
+	---------
+		ajax segítségével, lekérdezzük mi a beírt felhasználónévhez tartozó azonosító, és az alapján JSON segítségével meg tudjuk hívni a profilképet a bejelentkező képernyőn.
+
+		$.(ajax) GET: {username} RETURN: {userid}
+
+		$sql = "SELECT id, username FROM users";
+		<img src="images/profiles/user_<userid>.jpg">
+
+	get-comments.php
+	----------
+		kommentek lekérdezése ajax segítségével
+		$.ajax
+		$sql = "SELECT * FROM comments";
+
+		while($row = sor értékei) {
+
+			Felhasználó nevének lekérdezése $userid alapján
+				$sql_user = "SELECT fullname FROM users WHERE id = '$userid'";
+		
+			A komment további tulajdonságainak mentése tömbbe
+				id, userid, fullname, date, text
+
+			Like-ok számának lekérdezése likes táblából $commentid alapján
+	    		$sql_likes = "SELECT commentid FROM likes WHERE commentid = $commentid";
+			
+			Amennyiben a likes táblában szerepel olyan sor ahol a 
+			$row['commentid'] == a lekérdezett komment azonosítója
+			$row['userid'] == a bejelentkezett felhasználó azonosítója 
+			abban az esetben, youliked true érték lesz
+	    		$sql_youlike = "SELECT commentid FROM likes WHERE commentid = $commentid AND userid = $userid";
+
+		}
+
+		lekérdezés lezárása, comment_count beállítása
+		
+
+		$comment_count = kommentek száma
+		$comment[$i]['id'] = komment azonosítója
+		$comment[$i]['userid'] = komment tulajdonosának azonosítója
+		$comment[$i]['fullname'] = userid segítségével lekérdezett teljes név
+		$comment[$i]['date'] = a komment TIMESTAMP-ja
+		$comment[$i]['text'] = a komment teljes szövege
+		$comment[$i]['likes'] = kommentre kapott like-ok száma
+		$comment[$i]['youlike'] = a bejelentkezett felhasználó értékelése, az adott kommentre
+
+	submit.php
+	----------
+		session indítása
+		ajax segítségével, elküldjük a posztolni kívánt szöveget POST method-dal
+		$sql = "INSERT INTO comments (userid, text) VALUES ($userid, '$text');";
+
+
+	like.php 
+	----------
+		ajax segítségével, elküldjük az adott komment azonosítóját GET method-dal, és hogy az adott felhasználó like-olta már, amennyiben még nem lefut az INSERT utasítás, ellenben a DELETE utasítás.
+
+		if('.comment-like') value is 0
+		$sql = "INSERT INTO likes (commentid, userid) VALUES ($commentid, $userid)";
+
+		if('.comment-like') value is 1
+		$sql = "DELETE FROM likes WHERE commentid = $commentid AND userid = $userid";
+
+	remove.php 
+	----------
+		ajax segítségével, elküldjük az adott komment azonosítóját GET method-dal, majd töröljük a comments táblából
+		$sql = "DELETE FROM comments WHERE commentid = $id";
+
+		majd az adott kommentre jutó like-okat is töröljük, ne legyen redundáns adat a likes táblában
+		$sql = "DELETE FROM likes WHERE commentid = $id";
+
+system.php - some oop scripts
+====================
+
+	system.php
+	-----------
+	Leellenőrizzük, hogy a regisztrációs felületről kiérve a felhasználó, éppen regisztrált állapotvan van-e.
+
+	formatDateTime()
+		DateTime átalakítása, tegnap, ma, vagy dátum értékre.
+	betweenDateTime()
+		A formatDateTime()-ot szöveggé alakítja, kiíratáshoz.
+	getTrue()
+		POST érték vizsgálata
+	logOff()
+		Az összes bejelentkezéshez szükséges SESSION-t alapértelmezettre állítja.
+	logIn()
+		Csatlakozás adatbázishoz
+		Amennyiben a login felületen maradunk, akkor mindenképpen 'Rossz felhasználónév, vagy jelszó' fogad bennünket.
+		$sql = "
+			SELECT id, username, password, fullname, admin
+			FROM users
+			WHERE username = '$username'
+		";
+
+		A 'username' mezőbe beírt értékekkel megegyező sorok betöltése (1. ilyen sor lehet csak)
+		Majd jelszó összevetése SHA1-es kódolásból a 'password' mezőbe beírt jelszóval
+		Felhasználó adatok elmentése SESSION-be.
+		Átirányítás a bejelentkezett oldalra.
+		Lekérdezés lezárása.
+
+		$_SESSION['loggedin'] = bejelentkezett állapot mentése
+		$_SESSION['userid'] = bejelentkezett felhasználó azonosítója
+		$_SESSION['username'] = bejelentkezett felhasználó neve
+		$_SESSION['fullname'] = bejelentkezett felhasználó teljes neve
+		$_SESSION['admin'] = adminisztrátori engedély
+
+	getLoggedIn()
+		Amennyiben az állapotod bejelentkezett, irassa ki a felhasználónevet, a kijelentkezés gombot és, hogy a felhasználó adminisztrátori joggal rendelkezik.
+
+
+$_POSTS
+=============
+
+	login
+	------
+	$_POST['username'] = felhasználónév
+	$_POST['password'] = jelszó SHA1 kódolásban
+	$_POST['login'] = login gomb
+
+	register
+	-------
+	$_POST['fullname'] = felhasználónév
+	$_POST['email'] = email 
+	$_POST['username'] = felhasználónév
+	$_POST['password1'] = jelszó1
+	$_POST['password2'] = jelszó2
+	$_POST['register'] = register gomb
+
+	main
+	-------
+	$_POST['post-text'] = posztolni kívánt szöveg mező
+
+
+$_SESSIONS
+=============
+
+	login
+	--------
+		$_SESSION['loggedin'] = bejelentkezett állapot mentése
+		$_SESSION['userid'] = bejelentkezett felhasználó azonosítója
+		$_SESSION['username'] = bejelentkezett felhasználó neve
+		$_SESSION['fullname'] = bejelentkezett felhasználó teljes neve
+		$_SESSION['admin'] = adminisztrátori engedély
+
+
+	register
+	---------
+		$_SESSION['file'] = feltöltött profilkép mentése, elrontott regisztráció esetére
+
+		$_SESSION['registered'] = most regisztrált?
+		$_SESSION['registered_name'] = most regisztrált neve kiíratáshoz
+
+
+
+
+
