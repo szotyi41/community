@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; ">
 
 	<link rel="stylesheet" type="text/css" href="style/style.css">
 	<link rel="stylesheet" type="text/css" href="style/font-awesome.css">
@@ -10,9 +11,10 @@
 
 	<script type="text/javascript">
 
+
+
 	$(document).ready(function() 
 	{
-
 			$(document).on('click', '.comment-like', function() {
 
 					var id = $(this).attr('id');
@@ -98,14 +100,7 @@
 
 			<div class="comment">
 				<div class="comment-profile">
-					<?php
-						if($comment[$i]['userid'] > 0) {
-							echo "<img src='images/profiles/user_".$comment[$i]['userid'].".jpg'>";
-						} else {
-							echo "<img src='images/profile.png'>";
-						}
-					?>
-					
+					<img onError="this.src='images/profile.png'" src=<?php echo "'images/profiles/user_".$comment[$i]['userid'].".jpg'"; ?>>
 				</div>
 
 				<div class="comment-content">
@@ -117,7 +112,7 @@
 						} 
 					?>
 
-					<div class="comment-name"><?php echo $comment[$i]['fullname']; ?></div>
+					<div class="comment-name"><?php if(!empty($comment[$i]['fullname'])) echo $comment[$i]['fullname']; else echo 'Removed User'; ?></div>
 					<div class="comment-date"><?php echo $comment[$i]['date']; ?></div>
 					<div class="comment-text"><?php echo $comment[$i]['text']; ?></div>
 					
@@ -149,7 +144,7 @@
 		<div class="post">
 			<h3>Write a comment</h3>
 			<form id="post-form" class="post-form" method="POST">
-					<img src=<?php echo '"images/profiles/user_'.$_SESSION['userid'].'.jpg"'; ?>>
+					<img onerror="defaultProfile()" src=<?php echo '"images/profiles/user_'.$_SESSION['userid'].'.jpg"'; ?>>
 					<textarea name="post-text" id="post-text" alt="Comment"></textarea>
 			</form>
 			<input type="button" name="post-button" id="post-button" value="Post">

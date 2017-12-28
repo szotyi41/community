@@ -7,38 +7,36 @@
 		$_SESSION['registered_name'] = '';
 	}
 
-	function formatDateTime($datetime) {
-
-		$posttime = new DateTime(date("Y-m-d", $datetime));
-		$posttime->setTime(date("G", $datetime), date("i", $datetime));
-
-		$today = new DateTime("today");
-		$yesterday = new DateTime("yesterday");
-
-		return betweenDateTime($posttime, $yesterday, $today);
-	}
-
-	function betweenDateTime($datetime, $datetimemin, $datetimemax)
+	function formatDateTime($posttime)
 	{
-		$date = 'Once';
+		$datetime = new DateTime(date("Y-m-d", $posttime));
+		$datetime->setTime(date("G", $posttime), date("i", $posttime));
 
-		if($datetimemin < $datetime) 
-		{
-			if($datetimemax > $datetime) 
-			{
-				$date = 'Yesterday';
-			} 
-			else 
-			{
-				$date = 'Today';
-			}
-		} 
-		else 
-		{
-			$date = strtoupper($datetime->format("Y F d"));
-		}
+		$result = 'Once';
+    $now = new DateTime("now");
+    $diff = date_diff($now, $datetime);
+    
+		if($diff->m > 0) {
+    	$result = $datetime->format("Y m d").' at '.$datetime->format("G:i");
+    }
+    else if($diff->d > 0) {
+    	if($diff->d == 1) {
+    		$result = 'Yesterday at '.$datetime->format("G:i");
+    	} else {
+    		$result = ($diff->d .' day'. ($diff->d > 1?"s":'')).' ago';
+    	}
+    }
+    else if($diff->h > 0) {
+    	$result = $diff->h .' hour'.($diff->h > 1 ? "s":'').' ago';
+    }
+    else if($diff->i > 0) {
+    	$result = $diff->i .' minute'. ($diff->i > 1?"s":'').' ago';
+    }
+    else if($diff->s > 0) {
+    	$result = 'Now';
+    }
 
-		return $date.' at '.$datetime->format("G:i");
+		return $result;
 	}
 
 	function getTrue($i) {

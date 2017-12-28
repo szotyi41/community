@@ -8,7 +8,7 @@
 
 	$wrong = array();
 	$error = false;
-
+	
 	if(isset($_FILES['profile-upload']['tmp_name']) and ($_FILES['profile-upload']['tmp_name']))
 	{
 		$upload = true;
@@ -31,14 +31,11 @@
 				$_SESSION['file'] = basename($_FILES['profile-upload']['name']);
 				move_uploaded_file($file, $destination);
 			}
-
 		}
-
 	}
 
 	if(isset($_POST['register']) and ($_POST['register'])) 
 	{
-
 		$_POST['register'] = false;
 
 		if(isset($_POST['fullname'])) 
@@ -194,11 +191,25 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; ">
 
 	<link rel="stylesheet" type="text/css" href="style/style.css">
 	<link rel="stylesheet" type="text/css" href="style/font-awesome.min.css">
 
 	<script src="javascript/jquery-3.2.1.min.js"></script>
+
+<script>
+
+	$(document).ready(function() 
+	{
+		$('#profile-upload').change(function(event) {
+			var tmppath = URL.createObjectURL(event.target.files[0]);
+			$('#login-profile-image').attr('src',tmppath);
+		});
+	});
+
+</script>
+
 
 </head>
 
@@ -221,7 +232,6 @@
 		<form id="register" method="POST" enctype="multipart/form-data">
 
 			<input type="file" name="profile-upload" id="profile-upload" accept="image/*">
-			<input type="submit" name="upload" value="Upload">
 			<div class="register-error"><?php if(isset($wrong['profile-upload'])) echo $wrong['profile-upload']; ?></div>
 
 			<input type="textbox" name="fullname" id="fullname" class="textbox" placeholder="full name" 
@@ -249,8 +259,8 @@
 
 		</form>
 	</div>
-	
-</div>
+
+
 
 </body>
 </html>
