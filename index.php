@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; ">
 
 	<link rel="stylesheet" type="text/css" href="style/style.css">
 	<link rel="stylesheet" type="text/css" href="style/font-awesome.min.css">
@@ -27,7 +28,7 @@
 	<div class="login">
 
 		<div class="login-profile">
-			<img id="login-profile-image" src="images/profile.png">
+			<img id="login-profile-image" src="images/profile.png" onerror="defaultProfile()">
 		</div>
 
 		<form id="login" method="POST">
@@ -46,9 +47,13 @@
 
 <script>
 
+	function defaultProfile() 
+	{
+		document.getElementById("login-profile-image").src = 'images/profile.png';
+	}
+
 	$(document).ready(function() 
 	{
-
 
 		refreshProfile();
 
@@ -67,11 +72,11 @@
 			    	$('#login-profile-image').load(document.URL +  ' #login-profile-image');
 
 			    	var userid = result['userid'];
-			    	document.getElementById("login-profile-image").src = 'images/profiles/user_'+userid+'.jpg';
+			    	$('#login-profile-image').attr('src', 'images/profiles/user_'+userid+'.jpg');
 			    	
   				},
   				error: function(error) {
-  					document.getElementById("login-profile-image").src = 'images/profile.png';
+  					$('#login-profile-image').attr('src', 'images/profile.png');
   				}
 			});
 		}
